@@ -7,7 +7,7 @@ function QuestionList({questions}) {
       <h1>Quiz Questions</h1>
       <ul>
         {/* display QuestionItem components here after fetching */}
-        {questions.map( (question) => <QuestionItem question={question}/>)}
+        {questions.map( (question) => <QuestionItem key={question.id} question={question}/>)}
       </ul>
     </section>
   );

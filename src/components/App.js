@@ -14,12 +14,17 @@ function App() {
     .then(data => setQuestions(data))
   }, [])
 
-  // 
+  // Update the questions list when a user submits a new question
+  // Set state to the new question list 
+  function addNewQuestion(question){
+    const newQuestionList = [...questions, question];
+    setQuestions(newQuestionList);
+  }
 
   return (
     <main>
       <AdminNavBar onChangePage={setPage} />
-      {page === "Form" ? <QuestionForm /> : <QuestionList questions={questions}/>}
+      {page === "Form" ? <QuestionForm addNewQuestion={addNewQuestion}/> : <QuestionList questions={questions}/>}
     </main>
   );
 }

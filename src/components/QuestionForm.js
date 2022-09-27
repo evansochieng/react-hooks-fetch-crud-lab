@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function QuestionForm(props) {
+function QuestionForm({addNewQuestion}) {
   const [formData, setFormData] = useState({
     prompt: "",
     answer1: "",
@@ -19,7 +19,36 @@ function QuestionForm(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(formData);
+
+    // Destructure formData for use in POST request
+    const {prompt, correctIndex, answer1, answer2, answer3, answer4} = formData
+
+    // Make POST request to add the question to the API
+    fetch('http://localhost:4000/questions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accepted': 'application/json'
+      },
+      //body: JSON.stringify(newQuestionDetails)
+      body: JSON.stringify({
+        'prompt': prompt,
+        'answers': [answer1, answer2, answer3, answer4],
+        'correctIndex': correctIndex
+      })
+    })
+    .then(resp => resp.json())
+    .then(data => addNewQuestion(data))
+
+    // Reset input boxes
+    setFormData({
+      prompt: "",
+      answer1: "",
+      answer2: "",
+      answer3: "",
+      answer4: "",
+      correctIndex: 0,
+    })
   }
 
   return (
