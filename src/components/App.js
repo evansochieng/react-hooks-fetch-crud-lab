@@ -21,10 +21,42 @@ function App() {
     setQuestions(newQuestionList);
   }
 
+  // Delete a question when the delete button is clicked
+  // Filter out questions which doesn't match the id that has been passed
+  const deleteQuestion = (id) => {
+    const remeiningQuestions = questions.filter(question => question.id !== id)
+    //persist change to the server
+    fetch(`http://localhost:4000/questions/${id}`, {
+      method: 'DELETE'
+    });
+
+    // Add delete functionality on button
+    setQuestions(remeiningQuestions)
+  }
+
+  // Update a question's answer (correct answer)
+  const updateQuestion = (id, rightIndex) => {
+    const updatedQuestions = questions
+
+    // Update the question on the server
+    fetch(`http://localhost:4000/questions/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accepted': 'application/json'
+      },
+      body: {
+        correctIndex: rightIndex
+      }
+    })
+    .then(resp => resp.json())
+    .then(data => setQuestions(data))
+  }
+
   return (
     <main>
       <AdminNavBar onChangePage={setPage} />
-      {page === "Form" ? <QuestionForm addNewQuestion={addNewQuestion}/> : <QuestionList questions={questions}/>}
+      {page === "Form" ? <QuestionForm addNewQuestion={addNewQuestion}/> : <QuestionList questions={questions} deleteQuestion={deleteQuestion}/>}
     </main>
   );
 }
