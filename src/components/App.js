@@ -44,8 +44,8 @@ function App() {
         return question
       }
     })
-
-    setQuestions(updatedQuestions)
+    console.log(updatedQuestions)
+    //setQuestions(updatedQuestions)
 
     // Update the question on the server
     fetch(`http://localhost:4000/questions/${id}`, {
@@ -59,6 +59,7 @@ function App() {
     })
     .then(resp => resp.json())
     .then(data => setQuestions(data))
+    //.then(data => setQuestions(data))
 
     // Set state to the updated list
     //setQuestions(updatedQuestions)
