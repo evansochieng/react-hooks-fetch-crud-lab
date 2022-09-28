@@ -36,27 +36,38 @@ function App() {
 
   // Update a question's answer (correct answer)
   const updateQuestion = (id, rightIndex) => {
-    const updatedQuestions = questions
+    // change the value of correctIndex key
+    const updatedQuestions = questions.map( (question) => {
+      if (question.id === id){
+        return {...question, correctIndex: rightIndex}
+      } else {
+        return question
+      }
+    })
+
+    setQuestions(updatedQuestions)
 
     // Update the question on the server
     fetch(`http://localhost:4000/questions/${id}`, {
       method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json',
-        'Accepted': 'application/json'
+        'Content-Type': 'application/json'
       },
-      body: {
+      body: JSON.stringify({
         correctIndex: rightIndex
-      }
+      })
     })
     .then(resp => resp.json())
     .then(data => setQuestions(data))
+
+    // Set state to the updated list
+    //setQuestions(updatedQuestions)
   }
 
   return (
     <main>
       <AdminNavBar onChangePage={setPage} />
-      {page === "Form" ? <QuestionForm addNewQuestion={addNewQuestion}/> : <QuestionList questions={questions} deleteQuestion={deleteQuestion}/>}
+      {page === "Form" ? <QuestionForm addNewQuestion={addNewQuestion}/> : <QuestionList questions={questions} deleteQuestion={deleteQuestion} updateQuestion={updateQuestion}/>}
     </main>
   );
 }
