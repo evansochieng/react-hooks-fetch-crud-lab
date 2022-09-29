@@ -7,11 +7,16 @@ function App() {
   const [page, setPage] = useState("List");
   const [questions, setQuestions] = useState([]);
 
+  // Get data function
+  function getData(){
+    fetch('http://localhost:4000/questions')
+      .then(response => response.json())
+      .then(data => setQuestions(data))
+  }
+
   // Fetch data from the API, set state to the results
   useEffect( () => {
-    fetch('http://localhost:4000/questions')
-    .then(response => response.json())
-    .then(data => setQuestions(data))
+    getData()
   }, [])
 
   // Update the questions list when a user submits a new question
@@ -24,27 +29,27 @@ function App() {
   // Delete a question when the delete button is clicked
   // Filter out questions which doesn't match the id that has been passed
   const deleteQuestion = (id) => {
-    const remeiningQuestions = questions.filter(question => question.id !== id)
+    //const remeiningQuestions = questions.filter(question => question.id !== id)
     //persist change to the server
     fetch(`http://localhost:4000/questions/${id}`, {
       method: 'DELETE'
     });
-
+    getData()
     // Add delete functionality on button
-    setQuestions(remeiningQuestions)
+    //setQuestions(remeiningQuestions)
   }
 
   // Update a question's answer (correct answer)
   const updateQuestion = (id, rightIndex) => {
     // change the value of correctIndex key
-    const updatedQuestions = questions.map( (question) => {
-      if (question.id === id){
-        return {...question, correctIndex: rightIndex}
-      } else {
-        return question
-      }
-    })
-    console.log(updatedQuestions)
+    // const updatedQuestions = questions.map( (question) => {
+    //   if (question.id === id){
+    //     return {...question, correctIndex: rightIndex}
+    //   } else {
+    //     return question
+    //   }
+    // })
+    // console.log(updatedQuestions)
     //setQuestions(updatedQuestions)
 
     // Update the question on the server
@@ -58,7 +63,8 @@ function App() {
       })
     })
     .then(resp => resp.json())
-    .then(data => setQuestions(data))
+    .then(data => console.log(data))
+    getData()
     //.then(data => setQuestions(data))
 
     // Set state to the updated list

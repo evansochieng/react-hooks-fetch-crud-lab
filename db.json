@@ -64,7 +64,7 @@
         "reactive",
         "controlled"
       ],
-      "correctIndex": 1
+      "correctIndex": 2
     },
     {
       "prompt": "What should not be included in useEffect hook?",
@@ -74,7 +74,7 @@
         "Subscriptions",
         "Form submission"
       ],
-      "correctIndex": 3,
+      "correctIndex": 0,
       "id": 7
     },
     {
@@ -85,7 +85,7 @@
         "The component re-renders",
         "The app crashes"
       ],
-      "correctIndex": 2,
+      "correctIndex": 0,
       "id": 8
     }
   ]
